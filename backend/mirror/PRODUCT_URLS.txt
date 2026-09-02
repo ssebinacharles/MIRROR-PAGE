@@ -1,0 +1,8 @@
+In backend/mirror/urls.py, import:
+
+product_search_api, product_detail_api
+
+Then add before the catch-all router include or anywhere inside urlpatterns:
+
+path("products/search/", product_search_api),
+path("products/<uuid:product_id>/", product_detail_api),

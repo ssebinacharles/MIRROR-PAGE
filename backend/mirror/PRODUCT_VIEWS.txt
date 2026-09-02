@@ -1,0 +1,45 @@
+Add these imports to backend/mirror/views.py:
+
+from .product_serializers import ProductSerializer
+from .services.product_service import search_products, get_product
+
+Then add:
+
+@api_view(["POST"])
+def product_search_api(request):
+    query = request.data.get("query", "")
+    max_price = request.data.get("max_price")
+
+    if max_price is not None:
+        try:
+            max_price = float(max_price)
+        except (TypeError, ValueError):
+            return Response(
+                {"error": "max_price must be numeric."},
+                status=400,
+            )
+
+        if max_price < 0:
+            return Response(
+                {"error": "max_price must be non-negative."},
+                status=400,
+            )
+
+    products = search_products(query, max_price)
+
+    return Response({
+        "products": ProductSerializer(products, many=True).data,
+    })
+
+
+@api_view(["GET"])
+def product_detail_api(request, product_id):
+    product = get_product(str(product_id))
+
+    if product is None:
+        return Response(
+            {"error": "Product not found."},
+            status=404,
+        )
+
+    return Response(ProductSerializer(product).data)

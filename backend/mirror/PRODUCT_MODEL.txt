@@ -1,0 +1,20 @@
+Add this model to backend/mirror/models.py. Make sure `import uuid` is already present.
+
+class Product(TimeStampedModel):
+    name = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    category = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    currency = models.CharField(max_length=3, default="USD")
+    specs = models.JSONField(default=dict, blank=True)
+    available = models.BooleanField(default=True)
+
+    class Meta:
+        ordering = ["price", "name"]
+        indexes = [
+            models.Index(fields=["category", "available"]),
+            models.Index(fields=["price"]),
+        ]
+
+    def __str__(self):
+        return self.name

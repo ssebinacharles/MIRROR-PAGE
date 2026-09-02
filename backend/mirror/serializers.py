@@ -1,7 +1,15 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from .models import IntentContract, Policy, Tool, Agent, ToolCall, Approval, AuditLog
-
+from .models import (
+    IntentContract,
+    Policy,
+    Tool,
+    Agent,
+    ToolCall,
+    Approval,
+    AuditLog,
+    Product,
+)
 User = get_user_model()
 
 class UserSerializer(serializers.ModelSerializer):
@@ -60,6 +68,25 @@ class EvaluateActionSerializer(serializers.Serializer):
     agent_id = serializers.UUIDField()
     input_payload = serializers.JSONField(required=False, default=dict)
     execute = serializers.BooleanField(required=False, default=False)
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = [
+            'id',
+            'name',
+            'description',
+            'category',
+            'price',
+            'currency',
+            'specs',
+            'available',
+            'created_at',
+        ]
+        read_only_fields = [
+            'id',
+            'created_at',
+        ]
 
 class ApprovalDecisionSerializer(serializers.Serializer):
     action = serializers.ChoiceField(choices=['approve','deny'])

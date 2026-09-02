@@ -106,3 +106,45 @@ class AuditLog(TimeStampedModel):
     details = models.JSONField(default=dict, blank=True)
     class Meta:
         indexes = [models.Index(fields=['created_at']), models.Index(fields=['event_type'])]
+
+class Product(models.Model):
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
+
+    name = models.CharField(max_length=200)
+
+    description = models.TextField(blank=True)
+
+    category = models.CharField(max_length=100)
+
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+    )
+
+    currency = models.CharField(
+        max_length=3,
+        default="USD",
+    )
+
+    specs = models.JSONField(
+        default=dict,
+        blank=True,
+    )
+
+    available = models.BooleanField(
+        default=True,
+    )
+
+    created_at = models.DateTimeField(
+        auto_now_add=True,
+    )
+
+    class Meta:
+        ordering = ["price"]
+
+    def __str__(self):
+        return self.name
