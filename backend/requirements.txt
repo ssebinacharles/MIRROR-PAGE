@@ -6,3 +6,7 @@ python-dotenv==1.0.0
 pytz==2026.3.post1
 sqlparse==0.6.0
 tzdata==2026.3
+
+dj-database-url
+psycopg2-binary
+gunicorn
