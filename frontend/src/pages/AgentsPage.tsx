@@ -1,0 +1,2 @@
+import { useApp } from '@/app/providers'; import { SectionHeader } from '@/components/ui/SectionHeader'; import { Card } from '@/components/ui/Card'; import { AuthorityGraph } from '@/components/agents/AuthorityGraph';
+export function AgentsPage(){const {agents}=useApp(); return <div><SectionHeader eyebrow="AUTHORITY GRAPH" title="Agents" description="Observe delegated authority and its boundaries."/><Card><AuthorityGraph agents={agents}/></Card></div>}

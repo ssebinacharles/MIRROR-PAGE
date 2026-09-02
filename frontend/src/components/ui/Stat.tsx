@@ -1,0 +1,1 @@
+export function Stat({ label, value, meta }: { label: string; value: string|number; meta?: string }) { return <div><div className="stat-label">{label}</div><div className="stat-value">{value}</div>{meta && <div className="stat-meta">{meta}</div>}</div>; }

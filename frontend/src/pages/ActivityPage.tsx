@@ -1,0 +1,2 @@
+import { useApp } from '@/app/providers'; import { SectionHeader } from '@/components/ui/SectionHeader'; import { Card } from '@/components/ui/Card'; import { AgentTimeline } from '@/components/activity/AgentTimeline';
+export function ActivityPage(){const {calls}=useApp(); return <div><SectionHeader eyebrow="OBSERVABILITY" title="Activity" description="Every WebMCP action evaluated by MIRROR."/><Card><AgentTimeline calls={calls}/></Card></div>}

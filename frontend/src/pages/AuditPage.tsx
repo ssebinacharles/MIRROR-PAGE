@@ -1,0 +1,2 @@
+import { useApp } from '@/app/providers'; import { SectionHeader } from '@/components/ui/SectionHeader'; import { Card } from '@/components/ui/Card'; import { AuditTimeline } from '@/components/audit/AuditTimeline';
+export function AuditPage(){const {audit}=useApp(); return <div><SectionHeader eyebrow="AUDIT" title="Audit trail" description="Append-oriented records of control-plane and tool-evaluation events."/><Card><AuditTimeline events={audit}/></Card></div>}

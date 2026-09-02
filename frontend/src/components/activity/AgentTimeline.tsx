@@ -1,0 +1,2 @@
+import { EmptyState } from '@/components/ui/EmptyState'; import { ActionEvent } from './ActionEvent'; import type { ToolCall } from '@/types/models';
+export function AgentTimeline({calls}:{calls:ToolCall[]}) { if (!calls.length) return <EmptyState title="No agent actions yet">Tool activity will appear here as WebMCP actions are evaluated.</EmptyState>; return <div className="timeline">{calls.slice(0,8).map(c=><ActionEvent key={c.id} call={c}/>)}</div>; }

@@ -1,0 +1,2 @@
+import type { Agent } from '@/types/models';
+export function AuthorityGraph({agents}:{agents:Agent[]}) { return <div className="authority-graph"><div className="authority-node root"><span>Human</span></div>{agents.map((a)=><div className="authority-branch" key={a.id}><div className="connector"/><div className="authority-node"><div><strong>{a.name}</strong><span>{a.authority_scope.join(' · ') || 'no scope'}</span></div><small>{a.status}</small></div></div>)}</div>; }

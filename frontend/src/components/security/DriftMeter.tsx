@@ -1,0 +1,2 @@
+import { driftLabel } from '@/utils/risk';
+export function DriftMeter({ score }: { score: number }) { const label=driftLabel(score); return <div className="drift-wrap"><div className="drift-row"><span>Intent drift</span><strong>{Math.round(score*100)}%</strong></div><div className="meter"><div className={`meter-fill meter-${label.toLowerCase()}`} style={{ width: `${score*100}%` }}/></div><div className="drift-caption">{label}</div></div>; }
