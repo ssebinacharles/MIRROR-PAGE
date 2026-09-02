@@ -1,21 +1,36 @@
-import { toolDefinitions } from './tools';
-import { webmcpSupported } from './compatibility';
+import { registerTools } from "./tools";
 
 let registered = false;
 
-export async function registerMirrorTools() {
-  if (registered || !webmcpSupported()) return false;
-  const context = (document as Document & { modelContext: any }).modelContext;
-  for (const [name, tool] of Object.entries(toolDefinitions)) {
-    await context.registerTool({
-      name,
-      title: tool.title,
-      description: tool.description,
-      inputSchema: tool.inputSchema,
-      annotations: tool.annotations,
-      execute: tool.execute,
-    });
+export async function registerMirrorTools(): Promise<void> {
+  if (registered) {
+    return;
   }
-  registered = true;
-  return true;
+
+  if (
+    typeof document === "undefined" ||
+    !("modelContext" in document)
+  ) {
+    console.info(
+      "[MIRROR] WebMCP is not available in this browser.",
+    );
+    return;
+  }
+
+  try {
+    await registerTools();
+
+    registered = true;
+
+    console.info(
+      "[MIRROR] WebMCP tools registered successfully.",
+    );
+  } catch (error) {
+    console.error(
+      "[MIRROR] WebMCP registration failed:",
+      error,
+    );
+
+    throw error;
+  }
 }
