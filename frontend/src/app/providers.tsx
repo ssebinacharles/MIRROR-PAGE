@@ -10,7 +10,13 @@ import {
 import type { ReactNode } from "react";
 
 import { api } from "@/services/api";
-import { registerMirrorTools } from "@/webmcp/registry";
+import {
+  registerMirrorTools,
+} from "@/webmcp/registry";
+
+import {
+  setExecutionContext,
+} from "@/webmcp/authorize";
 
 import type {
   Agent,
@@ -122,6 +128,20 @@ export function AppProvider({
         intentResults[0] ??
         null;
 
+      const activeAgent =
+        agentResults.find(
+          (item) => item.status === "ACTIVE",
+        ) ??
+        agentResults[0] ??
+        null;
+
+      if (activeIntent && activeAgent) {
+        setExecutionContext({
+          intentId: activeIntent.id,
+          agentId: activeAgent.id,
+        });
+      }
+
       setIntent(activeIntent);
       setTools(toolResults);
       setAgents(agentResults);
@@ -154,6 +174,24 @@ export function AppProvider({
   useEffect(() => {
     void refresh();
   }, [refresh]);
+  
+  useEffect(() => {
+  const handleDecision = () => {
+    void refresh();
+  };
+
+  window.addEventListener(
+    "mirror:decision",
+    handleDecision,
+  );
+
+  return () => {
+    window.removeEventListener(
+      "mirror:decision",
+      handleDecision,
+    );
+  };
+}, [refresh]);
 
   useEffect(() => {
     void registerMirrorTools().catch((err) => {

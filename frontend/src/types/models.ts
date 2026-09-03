@@ -1,5 +1,13 @@
-export type Decision = 'ALLOW' | 'APPROVAL_REQUIRED' | 'DENY';
-export type Risk = 'LOW' | 'MEDIUM' | 'HIGH' | 'CRITICAL';
+export type Decision =
+  | "ALLOW"
+  | "APPROVAL_REQUIRED"
+  | "DENY";
+
+export type Risk =
+  | "LOW"
+  | "MEDIUM"
+  | "HIGH"
+  | "CRITICAL";
 
 export type IntentContract = {
   id: string;
@@ -10,7 +18,12 @@ export type IntentContract = {
   approval_required_actions: string[];
   denied_actions: string[];
   data_scope: string[];
-  status: 'DRAFT' | 'ACTIVE' | 'PAUSED' | 'REVOKED' | 'EXPIRED';
+  status:
+    | "DRAFT"
+    | "ACTIVE"
+    | "PAUSED"
+    | "REVOKED"
+    | "EXPIRED";
   expires_at: string | null;
   created_at: string;
   updated_at: string;
@@ -32,12 +45,27 @@ export type Tool = {
   annotations: Record<string, unknown>;
 };
 
+/**
+ * Matches the Django Agent.authority_scope JSON object.
+ */
+export type AgentAuthorityScope = {
+  max_price?: number;
+  can_purchase?: boolean;
+  allowed_tools?: string[];
+  blocked_tools?: string[];
+  [key: string]: unknown;
+};
+
 export type Agent = {
   id: string;
   name: string;
   parent: string | null;
-  authority_scope: string[];
-  status: 'ACTIVE' | 'PAUSED' | 'STOPPED' | 'REVOKED';
+  authority_scope: AgentAuthorityScope;
+  status:
+    | "ACTIVE"
+    | "PAUSED"
+    | "STOPPED"
+    | "REVOKED";
   created_at: string;
   updated_at: string;
 };
@@ -55,7 +83,11 @@ export type ToolCall = {
   drift_score: number;
   reason_codes: string[];
   explanation: string;
-  result_status: 'PENDING' | 'SUCCESS' | 'FAILED' | 'BLOCKED';
+  result_status:
+    | "PENDING"
+    | "SUCCESS"
+    | "FAILED"
+    | "BLOCKED";
   result_summary: Record<string, unknown>;
   created_at: string;
   updated_at: string;
@@ -66,7 +98,12 @@ export type Approval = {
   tool_call: string;
   tool_name: string;
   user: number;
-  status: 'PENDING' | 'APPROVED' | 'DENIED' | 'EXPIRED' | 'USED';
+  status:
+    | "PENDING"
+    | "APPROVED"
+    | "DENIED"
+    | "EXPIRED"
+    | "USED";
   scope: Record<string, unknown>;
   one_time: boolean;
   expires_at: string;
